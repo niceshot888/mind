@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>房地产债券情况</title>
+<title>股票列表</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" /> 
 <link type="text/css" href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -20,13 +20,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">股票列表</div>
-                    <div class="panel-body">
-                        <table id="tblStocks"></table>
-                        <div id="pagiStocks"></div>
-                    </div>
-                </div>
+                <table id="tblStocks"></table>
             </div>
         </div>
     </div>
@@ -51,57 +45,47 @@
                     var contents = db.exec("SELECT * FROM Data");
                     var values = contents[0].values;
 
-
                     var $grid = $("#tblStocks").jqGrid({
                     styleUI: 'Bootstrap',
                     datatype: "local",
                     //colNames:['ts_code','行业','名称', '涨幅720天', ],
                     colModel: [
-                        { name: 'ts_code',  key: true, hidden: true, frozen: true },
+                        //{ name: 'ts_code',  key: true, hidden: true, frozen: true },
                         { name: '行业',  width: 70,  frozen: true},
                         { name: '名称', width: 70,  frozen: true },
-                        { name: '涨幅720天',  width: 60, formatter: function (cellValue, options, rowItem) {
+                        { name: '涨幅720天',  width: 70, formatter: function (cellValue, options, rowItem) {
                             if (cellValue == null) return "";
                             return (parseFloat(cellValue)/100).toFixed(0)+'%';
                         } },
-                        { name: '涨幅360天', width: 60, formatter: function (cellValue, options, rowItem) {
+                        { name: '涨幅360天', width: 70, formatter: function (cellValue, options, rowItem) {
                             if (cellValue == null) return "";
                             return (parseFloat(cellValue)/100).toFixed(0)+'%';
                         } },
                         { name: 'PE', width: 50, },
                         { name: 'PB', width: 50, },
-                        { name: '上市年数', width: 50, },
+                        { name: '上市年数', width: 70, },
                         { name: 'ROE', width: 50, },
-                        { name: '预收款', width: 50, },
-                        { name: '预收占主营比', width: 50, },
-                        { name: '分红2021', width: 50, },
-                        { name: '归母净资产', width: 50, },
-                        { name: '毛利率', width: 50, },
-                        { name: '净利率', width: 50, },
+                        { name: '预收款', width: 70, },
+                        { name: '预收占主营比', width: 70, },
+                        { name: '分红2021', width: 70, },
+                        { name: '归母净资产', width: 70, },
+                        { name: '毛利率', width: 60, },
+                        { name: '净利率', width: 60, },
                         { name: '营收', width: 50, },
-                        { name: '营收增速', width: 50, },
-                        { name: '扣非净利润', width: 50, },
-                        { name: '扣非净利润增速', width: 50, },
-                        { name: '研发投入', width: 50, },
-                        { name: '研发投入占比', width: 50, },
-                        { name: '有息负债率', width: 50, },
-                        { name: '金融资产', width: 50, },
-                        { name: '核心利润率', width: 50, },
+                        { name: '营收增速', width: 70, },
+                        { name: '扣非净利润', width: 70, },
+                        { name: '扣非净利润增速', width: 70, },
+                        { name: '研发投入', width: 70, },
+                        { name: '研发投入占比', width: 70, },
+                        { name: '有息负债率', width: 70, },
+                        { name: '金融资产', width: 70, },
+                        { name: '核心利润率', width: 70, },
                     ],
-                    //autowidth: false,
                     autowidth: true,
-                    //height:"365px",
-                    //width: window.parent == window ? window.screen.availWidth - 20 : window.screen.availWidth - 250,
-                    height: window.parent == window ? window.screen.availHeight - 120 : window.screen.availHeight - 120,
-                    shrinkToFit: true,
+                    //width: window.parent == window ? window.screen.availWidth - 250 : window.screen.availWidth - 250,
+                    height: window.parent == window ? window.screen.availHeight - 350 : window.screen.availHeight - 350,
+                    shrinkToFit: false,
                     viewrecords: true,
-                    //searchGrid: {width:550},
-                    //height: 880,
-                    //multiselect: true,
-                    //rowNum: 25,
-                    //rowList: [25, 50,100],
-                    //pager: "#pagiStocks",
-                    //gridComplete: initGrid
                 });
 
                     for(var i=0;i<values.length;i++){
@@ -133,10 +117,8 @@
                             "核心利润率":value[23],
                         };
                         jQuery("#tblStocks").jqGrid('addRowData',i+1,row);
-                        //console.log(value[1]+","+value[2]+","+value[3]+","+value[4]+",");
                     }
-                    //colModel = $grid.jqGrid("getGridParam", "colModel");
-                    //$grid.jqGrid("setLabel", colModel[0], "ts_code");
+                    jQuery("#tblStocks").jqGrid('setFrozenColumns');
 
                 };
                 xhr.send();
