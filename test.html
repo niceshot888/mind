@@ -42,18 +42,18 @@
                 
                 var xhr = new XMLHttpRequest();
                 // For example: https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite
-                xhr.open('GET', 'db/world.db3', true);
+                xhr.open('GET', 'db/niceshot.db', true);
                 xhr.responseType = 'arraybuffer';
 
                 xhr.onload = e => {
                     var uInt8Array = new Uint8Array(xhr.response);
                     var db = new SQL.Database(uInt8Array);
-                    var contents = db.exec("SELECT * FROM City");
+                    var contents = db.exec("SELECT * FROM Data");
                     var values = contents[0].values;
                     //console.log(values);
                     for(var i=0;i<values.length;i++){
                         var value = values[i];
-                        console.log(value[1]);
+                        console.log(value[1]+","+value[2]+","+value[3]+","+value[4]+",");
                     }
                     //console.log(contents);
                     // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
