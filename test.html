@@ -53,33 +53,60 @@
                         //{ name: 'ts_code',  key: true, hidden: true, frozen: true },
                         { name: '行业',  width: 70,  frozen: true},
                         { name: '名称', width: 70,  frozen: true },
-                        { name: '涨幅720天',  width: 70, formatter: function (cellValue, options, rowItem) {
+                        { name: '涨幅720天',  width: 83, formatter: function (cellValue, options, rowItem) {
                             if (cellValue == null) return "";
-                            return (parseFloat(cellValue)/100).toFixed(0)+'%';
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
                         } },
-                        { name: '涨幅360天', width: 70, formatter: function (cellValue, options, rowItem) {
+                        { name: '涨幅360天', width: 83, formatter: function (cellValue, options, rowItem) {
                             if (cellValue == null) return "";
-                            return (parseFloat(cellValue)/100).toFixed(0)+'%';
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
                         } },
                         { name: 'PE', width: 50, },
                         { name: 'PB', width: 50, },
                         { name: '上市年数', width: 70, },
-                        { name: 'ROE', width: 50, },
+                        { name: 'ROE', width: 50,formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        } },
                         { name: '预收款', width: 70, },
-                        { name: '预收占主营比', width: 70, },
+                        { name: '预收占主营比', width: 95, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        } },
                         { name: '分红2021', width: 70, },
-                        { name: '归母净资产', width: 70, },
-                        { name: '毛利率', width: 60, },
-                        { name: '净利率', width: 60, },
-                        { name: '营收', width: 50, },
-                        { name: '营收增速', width: 70, },
-                        { name: '扣非净利润', width: 70, },
-                        { name: '扣非净利润增速', width: 70, },
+                        { name: '归母净资产', width: 83, },
+                        { name: '毛利率', width: 60, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        } },
+                        { name: '净利率', width: 60, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        } },
+                        { name: '营收', width:70, },
+                        { name: '营收增速', width: 70, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        } },
+                        { name: '扣非净利润', width: 83, },
+                        { name: '扣非净利润增速', width: 105, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        }},
                         { name: '研发投入', width: 70, },
-                        { name: '研发投入占比', width: 70, },
-                        { name: '有息负债率', width: 70, },
+                        { name: '研发投入占比', width: 98, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        }},
+                        { name: '有息负债率', width: 83, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        }},
                         { name: '金融资产', width: 70, },
-                        { name: '核心利润率', width: 70, },
+                        { name: '核心利润率', width: 83, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (parseFloat(cellValue)).toFixed(0)+'%';
+                        }},
                     ],
                     autowidth: true,
                     //width: window.parent == window ? window.screen.availWidth - 250 : window.screen.availWidth - 250,
