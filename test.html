@@ -33,7 +33,14 @@
 
     <script type="text/javascript">
         $(function() {
-            $.ajax({
+            
+            initSqlJs({ locateFile: filename => `db/world.db3` }).then(function(SQL){
+                var db = new SQL.Database();
+                var contents = db.exec("SELECT * from city");
+                console.log("--content:" + content);
+            });
+
+            /*$.ajax({
                 type: "GET",
                 url: "db/world.db3",
                 success: function(data) {
@@ -45,7 +52,7 @@
                     var contents = db.exec("SELECT * from city");
                     console.log("------content"+content);
                 }
-            });
+            });*/
         });
     </script>
 
