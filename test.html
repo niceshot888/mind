@@ -7,7 +7,6 @@
 <link type="text/css" href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <script type="text/javascript" src="bootstrap/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/require.js"></script>
 <script type="text/javascript" src="js/sql-wasm.js"></script>
 <style tyle="text/css">
 .panel-default {margin-top: 5px;}
@@ -34,19 +33,30 @@
 
     <script type="text/javascript">
         $(function() {
-            var xhr = new XMLHttpRequest();
-            // For example: https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite
-            xhr.open('GET', 'db/world.db3', true);
-            xhr.responseType = 'arraybuffer';
 
-            xhr.onload = e => {
-                var uInt8Array = new Uint8Array(xhr.response);
-                var db = new SQL.Database(uInt8Array);
-                var contents = db.exec("SELECT * FROM City");
-                console.log(contents);
-                // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
-            };
-            xhr.send();
+            config = {
+                locateFile: filename => `js/${filename}`
+            }
+
+            initSqlJs(config).then(function(SQL){
+                
+                var xhr = new XMLHttpRequest();
+                // For example: https://github.com/lerocha/chinook-database/raw/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite
+                xhr.open('GET', 'db/world.db3', true);
+                xhr.responseType = 'arraybuffer';
+
+                xhr.onload = e => {
+                    var uInt8Array = new Uint8Array(xhr.response);
+                    var db = new SQL.Database(uInt8Array);
+                    var contents = db.exec("SELECT * FROM City");
+                    console.log(contents);
+                    // contents is now [{columns:['col1','col2',...], values:[[first row], [second row], ...]}]
+                };
+                xhr.send();
+
+            });
+
+            
         });
     </script>
 
