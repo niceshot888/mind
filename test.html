@@ -60,8 +60,14 @@
                         { name: 'ts_code',  key: true, hidden: true, frozen: true },
                         { name: '行业',  width: 70,  frozen: true},
                         { name: '名称', width: 70,  frozen: true },
-                        { name: '涨幅720天',  width: 60 },
-                        { name: '涨幅360天', width: 60 },
+                        { name: '涨幅720天',  width: 60, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (double.parse(cellValue)/100).toFixed(0)+'%';
+                        } },
+                        { name: '涨幅360天', width: 60, formatter: function (cellValue, options, rowItem) {
+                            if (cellValue == null) return "";
+                            return (double.parse(cellValue)/100).toFixed(0)+'%';
+                        }  },
                         
                     ],
                     //autowidth: false,
