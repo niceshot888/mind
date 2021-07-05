@@ -55,16 +55,18 @@
                     var $grid = $("#tblStocks").jqGrid({
                     styleUI: 'Bootstrap',
                     datatype: "local",
-                    colNames:['ts_code','行业','名称', '涨幅720天', ],
+                    //colNames:['ts_code','行业','名称', '涨幅720天', ],
                     colModel: [
-                        { name: 'ts_code', index: 'ts_code', key: true, hidden: true, frozen: true },
-                        { name: '行业', index: '行业', width: 70,  frozen: true},
-                        { name: '名称', index: '名称', width: 70,  frozen: true },
-                        { name: '涨幅720天', index: '涨幅720天', width: 60 },
+                        { name: 'ts_code',  key: true, hidden: true, frozen: true },
+                        { name: '行业',  width: 70,  frozen: true},
+                        { name: '名称', width: 70,  frozen: true },
+                        { name: '涨幅720天',  width: 60 },
+                        { name: '涨幅360天', width: 60 },
                         
                     ],
                     //autowidth: false,
                     autowidth: true,
+                    height:"100%",
                     //width: window.parent == window ? window.screen.availWidth - 20 : window.screen.availWidth - 250,
                     //height: window.parent == window ? window.screen.availHeight - 150 : window.screen.availHeight - 150,
                     shrinkToFit: true,
