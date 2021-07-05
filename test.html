@@ -49,7 +49,7 @@
                     var uInt8Array = new Uint8Array(xhr.response);
                     var db = new SQL.Database(uInt8Array);
                     var contents = db.exec("SELECT * FROM City");
-                    var values = contents.values;
+                    var values = contents["values"];
                     console.log(values.length);
                     for(var i=0;i<values.length;i++){
                         var value = values[i];
