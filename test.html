@@ -52,10 +52,10 @@
                     var values = contents[0].values;
 
 
-                    $("#tblStocks").jqGrid({
+                    var $grid = $("#tblStocks").jqGrid({
                     styleUI: 'Bootstrap',
                     datatype: "local",
-                    colNames:[],
+                    colNames:['ts_code','行业','名称', '涨幅720天', ],
                     colModel: [
                         { name: 'ts_code', index: 'ts_code', key: true, hidden: true, frozen: true },
                         { name: '行业', index: '行业', width: 70,  frozen: true},
@@ -68,7 +68,7 @@
                     //width: window.parent == window ? window.screen.availWidth - 20 : window.screen.availWidth - 250,
                     //height: window.parent == window ? window.screen.availHeight - 150 : window.screen.availHeight - 150,
                     shrinkToFit: true,
-                    //viewrecords: true,
+                    viewrecords: true,
                     //searchGrid: {width:550},
                     //height: 880,
                     //multiselect: true,
@@ -80,8 +80,17 @@
 
                     for(var i=0;i<values.length;i++){
                         var value = values[i];
-                        console.log(value[1]+","+value[2]+","+value[3]+","+value[4]+",");
+                        var row = {
+                            "ts_code":value[0],
+                            "行业":value[1],
+                            "名称":value[2],
+                            "涨幅720天":value[3],
+                        };
+                        jQuery("#tblStocks").jqGrid('addRowData',i+1,row);
+                        //console.log(value[1]+","+value[2]+","+value[3]+","+value[4]+",");
                     }
+                    //colModel = $grid.jqGrid("getGridParam", "colModel");
+                    //$grid.jqGrid("setLabel", colModel[0], "ts_code");
 
                 };
                 xhr.send();
