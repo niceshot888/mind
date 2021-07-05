@@ -50,7 +50,7 @@
                     var db = new SQL.Database(uInt8Array);
                     var contents = db.exec("SELECT * FROM City");
                     var values = contents["values"];
-                    console.log(values.length);
+                    console.log(values);
                     for(var i=0;i<values.length;i++){
                         var value = values[i];
                         console.log(value[1]);
