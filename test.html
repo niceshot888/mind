@@ -42,95 +42,102 @@
                 xhr.onload = e => {
                     var uInt8Array = new Uint8Array(xhr.response);
                     var db = new SQL.Database(uInt8Array);
-                    var contents = db.exec("SELECT * FROM Data");
+					//console.log(db);
+					// where 行业 not in ('银行','保险','券商信托') 
+                    var contents = db.exec("SELECT * FROM aggdata where 行业 not in ('银行','保险','券商信托') ");
                     var values = contents[0].values;
 
+
                     var $grid = $("#tblStocks").jqGrid({
-                    styleUI: 'Bootstrap',
-                    datatype: "local",
-                    loadComplete:function(){
-                        var grid = $("#tblStocks");
-                        var ids = grid.getDataIDs();
-
-                        for (var i = 0; i < ids.length; i++) {
-                            grid.setRowData(ids[i], false, { height : 20 + (i * 2) });
-                        }
-
-                    },
-                    //colNames:['ts_code','行业','名称', '涨幅720天', ],
-                    colModel: [
-                        //{ name: 'ts_code',  key: true, hidden: true, frozen: true },
-                        { name: '行业',  width: 70,  frozen: true,sortable: false,},
-                        { name: '名称', width: 70,  frozen: true ,sortable: false,},
-                        { name: '涨幅720天',  width: 83,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        } },
-                        { name: '涨幅360天', width: 83,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        } },
-                        { name: 'PE', width: 50,sortable: false, },
-                        { name: 'PB', width: 50,sortable: false, },
-                        { name: '上市年数', width: 70,sortable: false, },
-                        { name: 'ROE', width: 50,sortable: false,formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        } },
-                        { name: '预收款', width: 70,sortable: false, },
-                        { name: '预收占主营比', width: 95,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        } },
-                        { name: '分红2021', width: 70,sortable: false, },
-                        { name: '归母净资产', width: 83,sortable: false, },
-                        { name: '毛利率', width: 60,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        } },
-                        { name: '净利率', width: 60,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        } },
-                        { name: '营收', width:70,sortable: false,},
-                        { name: '营收增速', width: 70,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        } },
-                        { name: '扣非净利润', width: 83,sortable: false, },
-                        { name: '扣非净利润增速', width: 105,sortable: false,formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        }},
-                        { name: '研发投入', width: 70,sortable: false, },
-                        { name: '研发投入占比', width: 98,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        }},
-                        { name: '有息负债率', width: 83,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        }},
-                        { name: '金融资产', width: 70,sortable: false, },
-                        { name: '核心利润率', width: 83,sortable: false, formatter: function (cellValue, options, rowItem) {
-                            if (cellValue == null) return "";
-                            return (parseFloat(cellValue)).toFixed(0)+'%';
-                        }},
-                    ],
-                    autowidth: true,
-                    //autoheight:true,
-                    //width: window.parent == window ? window.screen.availWidth - 250 : window.screen.availWidth - 250,
-                    //height: window.parent == window ? window.screen.availHeight - 350 : window.screen.availHeight - 350,
-                    height:window.screen.height-180,
-                    //height:'auto',
-					shrinkToFit: false,
-                    viewrecords: true,
-                });
-
+						styleUI: 'Bootstrap',
+						datatype: "local",
+						//colNames:['序号','行业'],
+						colModel: [
+							{ name: '序号', width: 40, frozen: true,sortable: false },
+							{ name: '行业', width: 70,  frozen: true,sortable: false,searchoptions: { sopt: ['cn', 'nc'] }},
+							{ name: '名称', width: 70,  frozen: true ,sortable: false,},
+							{ name: '涨幅720天',  width: 83,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							} },
+							{ name: '涨幅360天', width: 83,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							} },
+							{ name: 'PE', width: 50,sortable: false, },
+							{ name: 'PB', width: 50,sortable: false, },
+							{ name: '上市年数', width: 70,sortable: false, },
+							{ name: 'ROE', width: 50,sortable: false,formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							} },
+							{ name: '预收款', width: 70,sortable: false, },
+							{ name: '预收占主营比', width: 95,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							} },
+							{ name: '分红2021', width: 70,sortable: false, },
+							{ name: '归母净资产', width: 83,sortable: false, },
+							{ name: '毛利率', width: 60,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							} },
+							{ name: '净利率', width: 60,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							} },
+							{ name: '营收', width:70,sortable: false,},
+							{ name: '营收增速', width: 70,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							} },
+							{ name: '扣非净利润', width: 83,sortable: false, },
+							{ name: '扣非净利润增速', width: 105,sortable: false,formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							}},
+							{ name: '研发投入', width: 70,sortable: false, },
+							{ name: '研发投入占比', width: 98,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							}},
+							{ name: '有息负债率', width: 83,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							}},
+							{ name: '金融资产', width: 70,sortable: false, },
+							{ name: '核心利润率', width: 83,sortable: false, formatter: function (cellValue, options, rowItem) {
+								if (cellValue == null) return "";
+								return (parseFloat(cellValue)).toFixed(0)+'%';
+							}},
+						],
+						//autowidth: false,
+						autowidth: true,
+						height:window.screen.height - 180 ,
+						//height:"auto",
+						//width: window.parent == window ? window.screen.availWidth - 250 : window.screen.availWidth - 250,
+						//height: window.parent == window ? window.screen.availHeight - 350 : window.screen.availHeight - 350,
+						shrinkToFit: false,
+						viewrecords: true,
+						//rownumbers: true,
+						//rownumWidth: 40,
+						gridview: true,
+						//searchGrid: {width:350},
+						//height: 880,
+						//multiselect: true,
+						rowNum: 100000,
+						//rowList: [25, 50,100],
+						//pager: "#pagiStocks",
+						//gridComplete: initGrid
+					});
+					
+					var num=0;
+					console.log(values.length);
                     for(var i=0;i<values.length;i++){
                         var value = values[i];
-                        var colidx = 0;
+						var colidx=0;
                         var row = {
+							"序号":++num,
                             "ts_code":value[colidx++],
                             "行业":value[colidx++],
                             "名称":value[colidx++],
@@ -158,9 +165,10 @@
                             "核心利润率":value[colidx++],
                         };
                         jQuery("#tblStocks").jqGrid('addRowData',i+1,row);
+                        //console.log(value[1]+","+value[2]+","+value[3]+","+value[4]+",");
                     }
                     jQuery("#tblStocks").jqGrid('setFrozenColumns');
-
+					jQuery("#tblStocks").jqGrid('filterToolbar',{searchOperators : true});
                 };
                 xhr.send();
 
