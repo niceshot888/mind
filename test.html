@@ -48,6 +48,15 @@
                     var $grid = $("#tblStocks").jqGrid({
                     styleUI: 'Bootstrap',
                     datatype: "local",
+                    loadComplete:function(){
+                        var grid = $("#tblStocks"),
+                        var ids = grid.getDataIDs();
+
+                        for (var i = 0; i < ids.length; i++) {
+                            grid.setRowData(ids[i], false, { height : 20 + (i * 2) });
+                        }
+
+                    },
                     //colNames:['ts_code','行业','名称', '涨幅720天', ],
                     colModel: [
                         //{ name: 'ts_code',  key: true, hidden: true, frozen: true },
