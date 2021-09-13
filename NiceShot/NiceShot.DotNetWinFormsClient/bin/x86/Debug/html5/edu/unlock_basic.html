@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>UNLOCK2 BASIC 媒体库</title>
+    <link type="text/css" href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="../bootstrap/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.tmpl.min.js"></script>
+    <style type="text/css">
+        .panel-default {
+            margin-top: 5px;
+        }
+
+        .video_name {
+            width: 250px;
+        }
+
+        #pnlLevel0LiteracyMusic {
+            height: 425px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Basic Literacy - 基础读写 - 媒体库</div>
+                    <div class="panel-body">
+                        <div class="pnl-toolbar">
+                            <table>
+                                <tr>
+                                    <td>
+                                        书本标题：
+                                        <select id="sel_book_type">
+                                            <option value="Literacy">读写（Literacy）</option>
+                                            <option value="Skills">技巧（Skills）</option>
+                                        </select>
+                                        媒体类型：
+                                        <select id="sel_media_type">
+                                            <option value="Audio">音频（Audio）</option>
+                                            <!--<option value="Videos">视频（Videos）</option>
+                                            <option value="Videos with subtitles">带字幕视频（Videos with subtitles）</option>-->
+                                        </select>
+                                        单元：
+                                        <select id="sel_unit">
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" id="btnSearch">查询</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="pnlLevel0Audio">
+                        </div>
+                        <div id="pnlLevel0VideoWrap">
+                            <table>
+                                <tr>
+                                    <td id="pnlLevel0Video">
+                                    </td>
+                                    <td>
+                                        <video controls id="player">
+                                            <source src="http://localhost:8081/test.mp4" type="video/mp4">
+                                            您的浏览器不支持 HTML5 video 标签。
+                                        </video>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script id="tmplLevel0Audio" type="text/x-jquery-tmpl">
+        <table>
+            <tr>
+                <td>${Name}</td>
+                <td>
+                    <audio controls="controls">
+                        <source src="${Address}" type="audio/mpeg">
+                    </audio>
+                </td>
+            </tr>
+        </table>
+    </script>
+
+    <script id="tmplLevel0Video" type="text/x-jquery-tmpl">
+        <table>
+            <tr>
+                <td class="video_name">${Name}</td>
+                <td>
+                    <a href="javascript:void(0);" class="btn_video" onclick="playVideo('${Url}')"><img src="../imgs/play.png" alt="播放" style="width:16px;" /></a>
+                </td>
+            </tr>
+        </table>
+    </script>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            init();
+
+            showMedia();
+            $("#btnSearch").bind("click", function () {
+                showMedia();
+            });
+        });
+
+        function init() {
+            for (var i = 0; i < 11; i++) {
+                $("#sel_unit").append('<option value="' + i + '">第' + i + '单元</option>');
+            }
+
+            $("#sel_book_type").change(function () {
+                var book_type = $(this).val();
+
+                $("#sel_media_type").empty();
+
+                if (book_type == "Literacy") {
+                    $("#sel_media_type").append('<option value="Audio">音频（Audio）</option>');
+                } else {
+                    $("#sel_media_type").append('<option value="Videos">视频（Videos）</option>');
+                    $("#sel_media_type").append('<option value="Videos with subtitles">带字幕视频（Videos with subtitles）</option>');
+                }
+            });
+        }
+
+        function showMedia() {
+            var book_type = $("#sel_book_type").val();
+            var media_type = $("#sel_media_type").val();
+            var unit = $("#sel_unit").val();
+
+            $("#pnlLevel0Audio").empty().hide();
+            $("#pnlLevel0Video").empty().hide();
+
+            $.get("http://localhost:8081/unlock/GetBasicLevelFileList?book_type=" + book_type + "&media_type=" + media_type + "&unit=" + unit, function (rs) {
+                if (media_type == "Audio") {
+                    $("#tmplLevel0Audio").tmpl(rs).appendTo('#pnlLevel0Audio');
+                    $('#pnlLevel0Audio').show();
+                }
+                else {
+                    $("#tmplLevel0Video").tmpl(rs).appendTo('#pnlLevel0Video');
+                    $('#pnlLevel0Video').show();
+                }
+            });
+        }
+
+        function playVideo(address) {
+            //var objectURL = "file:///" + address.replace("\\", "/");"http://localhost:8081/" +
+            alert( address);
+            $("#player").attr("src", "http://localhost:8081/" +address);
+            //$("#player").play();
+        }
+
+    </script>
+
+</body>
+</html>

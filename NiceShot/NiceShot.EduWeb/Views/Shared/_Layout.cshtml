@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .container-fluid{width:auto;}
+        .navbar{margin-top:5px;}
+        .panel-default > .panel-heading {
+            font-weight: bolder;
+            font-size: 14px;
+            color: #777;
+        }
+        .text-right .media_name {
+            text-align: right;
+        }
+        .text-left .media_name {
+            text-align: left;
+        }
+        .pnl-toolbar {
+            text-align: center;
+        }
+        .pnlTopNav a {
+            margin: auto 10px;
+            display: inline-block;
+            padding: 5px 10px;
+            font-weight: bolder;
+            font-size: 16px;
+        }
+        .pnlTopNav .current {
+            background: #00a6ac;
+            color:#fff;
+            font-weight:bolder;
+            font-size:16px;
+        }
+        .pnlTopNav {
+            text-align: center;
+            margin-top: 10px;
+        }
+        select, option {
+            height: 30px;
+            line-height: 30px;
+        }
+
+        .media_name {
+            text-align: center;
+            margin: 15px auto;
+        }
+        .media_name img {
+            margin-left: 5px;
+            width: 16px;
+        }
+        #pnlLevelAudio {
+
+        }
+
+        #pnlAudio, #pnlVideo {
+            text-align: center;
+        }
+
+        #pnlLevelVideo {
+            vertical-align: top;
+        }
+
+        #pnlLevelAudioWrap, #pnlLevelVideoWrap {
+            margin: 10px auto;
+        }
+
+        #btnSearch, #btnOpenBook {
+            margin-left: 10px;
+        }
+        #imgBg{width:400px;margin-top:10px;}
+        .main{margin-top:10px;}
+    </style>
+    @RenderSection("css")
+    <script type="text/javascript" src="/bootstrap/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/jquery.tmpl.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                @*<div class="pnlTopNav">
+                    <a href="/unlock/basic">基础级</a>
+                    <a href="/unlock/l1">L1级</a>
+                    <a href="/unlock/l2">L2级</a>
+                    <a href="/unlock/l3">L3级</a>
+                    <a href="/unlock/l4">L4级</a>
+                    <a href="/unlock/l5">L5级</a>
+                </div>*@
+                <nav class="navbar navbar-default">
+                    <div>
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="javascript:void(0);">剑桥Unlock 2019 2nd Edition</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                @*<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>*@
+                                <li>
+                                    <div class="pnlTopNav">
+                                        <a href="/unlock/basic">基础级</a>
+                                        <a href="/unlock/l1">L1级</a>
+                                        <a href="/unlock/l2">L2级</a>
+                                        <a href="/unlock/l3">L3级</a>
+                                        <a href="/unlock/l4">L4级</a>
+                                        <a href="/unlock/l5">L5级</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </nav>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    @RenderSection("js")
+</body>
+</html>

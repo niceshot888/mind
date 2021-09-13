@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_AdminContentLayout.cshtml";
+}
+@section css{
+    <style type="text/css">
+        .layui-form-item .layui-input-inline {
+            width: 110px;
+        }
+
+        .layui-input {
+            width: 100px;
+        }
+        #bookname{width:170px;}
+        .layui-table-cell {
+            height: auto;
+            line-height: 28px;
+        }
+
+        .layui-form-pane .layui-form-label {
+            width: auto;
+        }
+        .layui-layout-admin .layui-body {
+            padding-bottom: 0;
+        }
+    </style>
+}
+
+<form class="layui-form layui-form-pane" action="">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">关键字：</label>
+            <div class="layui-input-inline">
+                <input type="text" id="keywords" autocomplete="off" class="layui-input" value="" />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">标签：</label>
+            <div class="layui-input-inline">
+                <input type="text" id="tag" autocomplete="off" class="layui-input" value="哲学" />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">名称：</label>
+            <div class="layui-input-inline" style="width:180px;">
+                <input type="text" id="bookname" autocomplete="off" class="layui-input" value="" />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">评分&nbsp;&nbsp;≥</label>
+            <div class="layui-input-inline">
+                <input type="text" id="rating_score" autocomplete="off" class="layui-input" value="8" />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">评价人数&nbsp;&nbsp;≥</label>
+            <div class="layui-input-inline">
+                <input type="text" id="rate_people_num" autocomplete="off" class="layui-input" value="1000" />
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">排序：</label>
+            <div class="layui-input-block" style="margin-left: 74px;">
+                <select id="sort">
+                    <option value="rate_people_num" selected>评价人数</option>
+                    <option value="rating_score">评分</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline">
+            <button id="btnSearch" type="button" class="layui-btn layui-btn-primary" lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+            <button id="btnClear" type="button" class="layui-btn layui-btn-primary">清空条件</button>
+        </div>
+    </div>
+</form>
+<table class="layui-hide" id="tblbooks" lay-filter="currentTableFilter"></table>
+
+@*<div class="layui-card">
+    <div class="layui-card-header"><i class="fa fa-bullhorn icon icon-tip"></i>根据条件查询书籍</div>
+    <div class="layui-card-body layui-text">
+
+    </div>
+</div>*@
+
+@section js{
+
+    <script type="text/javascript">
+
+        layui.use(['layer', 'miniTab', 'echarts', 'table'], function () {
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var miniTab = layui.miniTab;
+            var table = layui.table;
+
+            searchdata(table);
+
+            $("#btnSearch").bind("click", function () {
+                searchdata(table);
+                /*$.get("/DouBan/GetBookList", {
+                    "tag": tag,
+                    "rating_score": rating_score,
+                    "rate_people_num": rate_people_num,
+                }, function (rs) {
+                    console.log(rs);
+                });*/
+            });
+
+            $("#btnClear").bind("click", function () {
+                $("#tag").val("");
+                $("#bookname").val("");
+                $("#keywords").val("");
+                $("#rating_score").val("0");
+                $("#rate_people_num").val("0");
+            });
+
+            document.onkeydown = function () {
+                if (window.event.keyCode == 13) {
+                    searchdata(table);
+                }
+            };
+
+            miniTab.listen();
+        });
+
+        function searchdata(table) {
+            var tag = $("#tag").val();
+            var bookname = $("#bookname").val();
+            var keywords = $("#keywords").val();
+            var rating_score = $("#rating_score").val();
+            var rate_people_num = $("#rate_people_num").val();
+            var sort = $("#sort").val();
+
+            table.render({
+                elem: '#tblbooks',
+                url: "/DouBan/GetBookList?tag=" + tag + "&bookname=" + bookname + "&keywords=" + keywords + "&rating_score=" + rating_score + "&rate_people_num=" + rate_people_num + "&sort=" + sort,
+                cols: [[
+                    { type: 'numbers', title: '序号', width: 40, fixed: 'left' },
+                    { field: 'tag', title: '标签', width: 200, sort: true },
+                    { field: 'book_name', width: 220, title: '书名' },
+                    { field: 'rating_score', width: 80, title: '评分', sort: true },
+                    { field: 'rate_people_num', width: 80, title: '评价人数', sort: true },
+                    { field: 'pub_info', title: '出版信息', width: 400 },
+                    { field: 'summary', title: '简介' },
+                    { field: 'book_name', width: 80, title: '查看', templet: function (rs) { return '<a href="https://www.douban.com/search?cat=1001&q=' + rs.book_name + '" target="_blank">查看</a>'; } },
+                ]],
+                //limits: [10, 15, 20, 25, 50, 100],
+                //limit: 15,
+                height: 780,
+                page: false,
+                skin: 'line',
+            });
+        }
+    </script>
+}

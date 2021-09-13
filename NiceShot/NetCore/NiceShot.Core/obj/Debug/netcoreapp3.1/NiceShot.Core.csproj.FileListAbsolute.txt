@@ -1,0 +1,9 @@
+E:\kim\NiceShot\NiceShot.Core\bin\Debug\netcoreapp3.1\NiceShot.Core.deps.json
+E:\kim\NiceShot\NiceShot.Core\bin\Debug\netcoreapp3.1\NiceShot.Core.dll
+E:\kim\NiceShot\NiceShot.Core\bin\Debug\netcoreapp3.1\NiceShot.Core.pdb
+E:\kim\NiceShot\NiceShot.Core\obj\Debug\netcoreapp3.1\NiceShot.Core.AssemblyInfoInputs.cache
+E:\kim\NiceShot\NiceShot.Core\obj\Debug\netcoreapp3.1\NiceShot.Core.AssemblyInfo.cs
+E:\kim\NiceShot\NiceShot.Core\obj\Debug\netcoreapp3.1\NiceShot.Core.csproj.CoreCompileInputs.cache
+E:\kim\NiceShot\NiceShot.Core\obj\Debug\netcoreapp3.1\NiceShot.Core.dll
+E:\kim\NiceShot\NiceShot.Core\obj\Debug\netcoreapp3.1\NiceShot.Core.pdb
+E:\kim\NiceShot\NiceShot.Core\obj\Debug\netcoreapp3.1\NiceShot.Core.csprojAssemblyReference.cache

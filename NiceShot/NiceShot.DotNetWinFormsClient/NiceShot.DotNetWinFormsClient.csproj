@@ -1,0 +1,641 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\CefSharp.WinForms.83.4.20\build\CefSharp.WinForms.props" Condition="Exists('..\packages\CefSharp.WinForms.83.4.20\build\CefSharp.WinForms.props')" />
+  <Import Project="..\packages\CefSharp.Common.83.4.20\build\CefSharp.Common.props" Condition="Exists('..\packages\CefSharp.Common.83.4.20\build\CefSharp.Common.props')" />
+  <Import Project="..\packages\cef.redist.x86.83.4.2\build\cef.redist.x86.props" Condition="Exists('..\packages\cef.redist.x86.83.4.2\build\cef.redist.x86.props')" />
+  <Import Project="..\packages\cef.redist.x64.83.4.2\build\cef.redist.x64.props" Condition="Exists('..\packages\cef.redist.x64.83.4.2\build\cef.redist.x64.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CC9F105B-B1ED-4200-B8CB-0AFFF5CBE589}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>NiceShot.DotNetWinFormsClient</RootNamespace>
+    <AssemblyName>NiceShot.DotNetWinFormsClient</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.35\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus.Core, Version=1.5.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.Core.1.5.4\lib\net46\EPPlus.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4, Version=1.1.11.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.1.1.11\lib\net46\K4os.Compression.LZ4.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Compression.LZ4.Streams, Version=1.1.11.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Compression.LZ4.Streams.1.1.11\lib\net46\K4os.Compression.LZ4.Streams.dll</HintPath>
+    </Reference>
+    <Reference Include="K4os.Hash.xxHash, Version=1.0.6.0, Culture=neutral, PublicKeyToken=32cd54395057cec3, processorArchitecture=MSIL">
+      <HintPath>..\packages\K4os.Hash.xxHash.1.0.6\lib\net46\K4os.Hash.xxHash.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MakarovDev.ExpandCollapsePanel, Version=1.0.7197.27666, Culture=neutral, PublicKeyToken=6cb45db4006534c2, processorArchitecture=MSIL">
+      <HintPath>..\packages\MakarovDev.ExpandCollapsePanel.1.0.0\lib\net40\MakarovDev.ExpandCollapsePanel.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=8.0.21.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.8.0.21\lib\net452\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Ubiety.Dns.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.8.0.21\lib\net452\Ubiety.Dns.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Zstandard.Net, Version=1.1.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.8.0.21\lib\net452\Zstandard.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BizModelGeneration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BizModelGeneration.Designer.cs">
+      <DependentUpon>BizModelGeneration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BizModelGenerationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BizModelGenerationForm.Designer.cs">
+      <DependentUpon>BizModelGenerationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\AddHDForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\AddHDForm.Designer.cs">
+      <DependentUpon>AddHDForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\EditMajorBizScopeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\EditMajorBizScopeForm.Designer.cs">
+      <DependentUpon>EditMajorBizScopeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\ExcelAnalysisForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\ExcelAnalysisForm.Designer.cs">
+      <DependentUpon>ExcelAnalysisForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\FinDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\FinDetailsForm.Designer.cs">
+      <DependentUpon>FinDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\MajorBusinessScopeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\MajorBusinessScopeForm.Designer.cs">
+      <DependentUpon>MajorBusinessScopeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\MeasuringTheMoatForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\MeasuringTheMoatForm.Designer.cs">
+      <DependentUpon>MeasuringTheMoatForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\QuantFxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\QuantFxForm.Designer.cs">
+      <DependentUpon>QuantFxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\SinaBondForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\SinaBondForm.Designer.cs">
+      <DependentUpon>SinaBondForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\TestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\TestForm.Designer.cs">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChildForms\WebBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChildForms\WebBrowserForm.Designer.cs">
+      <DependentUpon>WebBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChromeWebBrowser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChromeWebBrowser.Designer.cs">
+      <DependentUpon>ChromeWebBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Core\CefBootstrap.cs" />
+    <Compile Include="Core\ColorType.cs" />
+    <Compile Include="Core\MarkedAsType.cs" />
+    <Compile Include="Core\NoticePdfHelper.cs" />
+    <Compile Include="Core\StringUtils.cs" />
+    <Compile Include="Core\Win32.cs" />
+    <Compile Include="Core\WinFormHelper.cs" />
+    <Compile Include="DataSyncs\BasicDataSyncForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSyncs\BasicDataSyncForm.Designer.cs">
+      <DependentUpon>BasicDataSyncForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSyncs\XQBasicDataSyncForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataSyncs\XQBasicDataSyncForm.Designer.cs">
+      <DependentUpon>XQBasicDataSyncForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EChartsWebBrowserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EChartsWebBrowserForm.Designer.cs">
+      <DependentUpon>EChartsWebBrowserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EmFinReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmFinReportForm.Designer.cs">
+      <DependentUpon>EmFinReportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerateAssAndCapExcelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateAssAndCapExcelForm.Designer.cs">
+      <DependentUpon>GenerateAssAndCapExcelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenerateXYPositionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenerateXYPositionForm.Designer.cs">
+      <DependentUpon>GenerateXYPositionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GetThsCookieForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GetThsCookieForm.Designer.cs">
+      <DependentUpon>GetThsCookieForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GridForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GridForm.Designer.cs">
+      <DependentUpon>GridForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Handler\CookieVisitor.cs" />
+    <Compile Include="Handler\SasContextMenuHandler.cs" />
+    <Compile Include="Handler\SasDialogHandler.cs" />
+    <Compile Include="Handler\SasDownloadHandler.cs" />
+    <Compile Include="Handler\SasJsDialogHandler.cs" />
+    <Compile Include="Handler\SasLifeSpanHandler.cs" />
+    <Compile Include="Handler\SasLoadHandler.cs" />
+    <Compile Include="Handler\SasStringVisitor.cs" />
+    <Compile Include="HistoryValueWbForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistoryValueWbForm.Designer.cs">
+      <DependentUpon>HistoryValueWbForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="JsonObjects\em_companynews_jo.cs" />
+    <Compile Include="JsonObjects\em_notice_list_jo.cs" />
+    <Compile Include="JsonObjects\em_notice_v1_jo.cs" />
+    <Compile Include="JsonObjects\xq_quote.cs" />
+    <Compile Include="JsonObjects\xq_top_holders_jo.cs" />
+    <Compile Include="Models\douban_book.cs" />
+    <Compile Include="StockListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockListForm.Designer.cs">
+      <DependentUpon>StockListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AssAndCapOptions.cs" />
+    <Compile Include="Models\AssetAndCapital.cs" />
+    <Compile Include="Models\ass_and_cap_entity.cs" />
+    <Compile Include="Models\AutoCompleteNameAndValue.cs" />
+    <Compile Include="Models\BalanceSheet_Common.cs" />
+    <Compile Include="Models\BizModel.cs" />
+    <Compile Include="Models\BizModelJsObject.cs" />
+    <Compile Include="Models\CashflowAdditionalData.cs" />
+    <Compile Include="Models\Cashflow_Common.cs" />
+    <Compile Include="Models\ExcelDataStructModel.cs" />
+    <Compile Include="Models\ChromeWebBrowserCriteria.cs" />
+    <Compile Include="Models\excel_bal_entity.cs" />
+    <Compile Include="Models\excel_cf_entity.cs" />
+    <Compile Include="Models\excel_inc_entity.cs" />
+    <Compile Include="Models\Income_Common.cs" />
+    <Compile Include="Models\LandXYPosition.cs" />
+    <Compile Include="Models\MainIndexData.cs" />
+    <Compile Include="Models\SearchStockCondition.cs" />
+    <Compile Include="Models\ThsHDData.cs" />
+    <Compile Include="Models\TopHolderModel.cs" />
+    <Compile Include="Models\ZhangAnalysisModel.cs" />
+    <Compile Include="Models\ZhangAnalysisV1Model.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShareHolderNums.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShareHolderNums.Designer.cs">
+      <DependentUpon>ShareHolderNums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StockDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StockDetailsForm.Designer.cs">
+      <DependentUpon>StockDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SupplyFinDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SupplyFinDataForm.Designer.cs">
+      <DependentUpon>SupplyFinDataForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TopHoldersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TopHoldersForm.Designer.cs">
+      <DependentUpon>TopHoldersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SearchConditionPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SearchConditionPanel.Designer.cs">
+      <DependentUpon>SearchConditionPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TopMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\TopMenu.Designer.cs">
+      <DependentUpon>TopMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewPdfForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ViewPdfForm.Designer.cs">
+      <DependentUpon>ViewPdfForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZhangAanalysisForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZhangAanalysisForm.Designer.cs">
+      <DependentUpon>ZhangAanalysisForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="BizModelGeneration.resx">
+      <DependentUpon>BizModelGeneration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BizModelGenerationForm.resx">
+      <DependentUpon>BizModelGenerationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\AddHDForm.resx">
+      <DependentUpon>AddHDForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\EditMajorBizScopeForm.resx">
+      <DependentUpon>EditMajorBizScopeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\ExcelAnalysisForm.resx">
+      <DependentUpon>ExcelAnalysisForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\FinDetailsForm.resx">
+      <DependentUpon>FinDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\MajorBusinessScopeForm.resx">
+      <DependentUpon>MajorBusinessScopeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\MeasuringTheMoatForm.resx">
+      <DependentUpon>MeasuringTheMoatForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\QuantFxForm.resx">
+      <DependentUpon>QuantFxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\SinaBondForm.resx">
+      <DependentUpon>SinaBondForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChildForms\WebBrowserForm.resx">
+      <DependentUpon>WebBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataSyncs\BasicDataSyncForm.resx">
+      <DependentUpon>BasicDataSyncForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataSyncs\XQBasicDataSyncForm.resx">
+      <DependentUpon>XQBasicDataSyncForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EChartsWebBrowserForm.resx">
+      <DependentUpon>EChartsWebBrowserForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmFinReportForm.resx">
+      <DependentUpon>EmFinReportForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateAssAndCapExcelForm.resx">
+      <DependentUpon>GenerateAssAndCapExcelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateXYPositionForm.resx">
+      <DependentUpon>GenerateXYPositionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GetThsCookieForm.resx">
+      <DependentUpon>GetThsCookieForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GridForm.resx">
+      <DependentUpon>GridForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistoryValueWbForm.resx">
+      <DependentUpon>HistoryValueWbForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockListForm.resx">
+      <DependentUpon>StockListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="ShareHolderNums.resx">
+      <DependentUpon>ShareHolderNums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StockDetailsForm.resx">
+      <DependentUpon>StockDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SupplyFinDataForm.resx">
+      <DependentUpon>SupplyFinDataForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TopHoldersForm.resx">
+      <DependentUpon>TopHoldersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\SearchConditionPanel.resx">
+      <DependentUpon>SearchConditionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\TopMenu.resx">
+      <DependentUpon>TopMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewPdfForm.resx">
+      <DependentUpon>ViewPdfForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZhangAanalysisForm.resx">
+      <DependentUpon>ZhangAanalysisForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="bin\x86\Debug\html5\imgs\imp_var_abn_prof.webp" />
+    <None Include="bin\x86\Debug\html5\imgs\mark_share_stab.webp" />
+    <None Include="bin\x86\Debug\html5\imgs\price_stab.webp" />
+    <None Include="bin\x86\Debug\html5\layer\layim\data\chatlog.json" />
+    <None Include="bin\x86\Debug\html5\layer\layim\data\friend.json" />
+    <None Include="bin\x86\Debug\html5\layer\layim\data\group.json" />
+    <None Include="bin\x86\Debug\html5\layer\layim\data\groups.json" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\html5\gdrs.html" />
+    <Content Include="bin\Debug\html5\js\echarts.min.js" />
+    <Content Include="bin\Debug\html5\js\index.js" />
+    <Content Include="bin\Debug\html5\js\jquery.min.js" />
+    <Content Include="bin\x86\Debug\html5\bizmodel.html" />
+    <Content Include="bin\x86\Debug\html5\askdm.html" />
+    <Content Include="bin\x86\Debug\html5\jgcc.html" />
+    <Content Include="bin\x86\Debug\html5\edu\unlock_basic.html" />
+    <Content Include="bin\x86\Debug\html5\imgs\a_firms_competitive_life_cycle.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\chirst_model.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\disint_of_computer.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\five_forces.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\indus_stru_stra_opport.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\innovation_cate_charact.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\market_exp_and_compstrategy.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\min_eff_scale.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\play.png" />
+    <Content Include="bin\x86\Debug\html5\imgs\us_air_indus_map.png" />
+    <Content Include="bin\x86\Debug\html5\makefriendwithtime.html" />
+    <Content Include="bin\x86\Debug\html5\moneysupply.html" />
+    <Content Include="bin\x86\Debug\html5\rulesforsuccess.html" />
+    <Content Include="bin\x86\Debug\html5\tdx.html" />
+    <Content Include="bin\x86\Debug\html5\eastmoney.html" />
+    <Content Include="bin\x86\Debug\html5\js\echarts.min.js" />
+    <Content Include="bin\x86\Debug\html5\js\jquery.tmpl.min.js" />
+    <Content Include="bin\x86\Debug\html5\layer\extend\layer.ext.js" />
+    <Content Include="bin\x86\Debug\html5\layer\laydate\laydate.js" />
+    <Content Include="bin\x86\Debug\html5\layer\laydate\need\laydate.css" />
+    <Content Include="bin\x86\Debug\html5\layer\laydate\skins\default\icon.png" />
+    <Content Include="bin\x86\Debug\html5\layer\laydate\skins\default\laydate.css" />
+    <Content Include="bin\x86\Debug\html5\layer\layer.min.js" />
+    <Content Include="bin\x86\Debug\html5\layer\layim\layim.css" />
+    <Content Include="bin\x86\Debug\html5\layer\layim\layim.js" />
+    <Content Include="bin\x86\Debug\html5\layer\layim\loading.gif" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\icon-ext.png" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\icon.png" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\icon_ext.png" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\loading-0.gif" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\loading-1.gif" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\loading-2.gif" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\textbg.png" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\xubox_ico0.png" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\xubox_loading0.gif" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\xubox_loading1.gif" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\xubox_loading2.gif" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\xubox_loading3.gif" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\default\xubox_title0.png" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\layer.css" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\layer.ext.css" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\moon\default.png" />
+    <Content Include="bin\x86\Debug\html5\layer\skin\moon\style.css" />
+    <Content Include="bin\x86\Debug\html5\lsgz_hk.html" />
+    <Content Include="bin\x86\Debug\html5\lsgz.html" />
+    <Content Include="bin\x86\Debug\html5\openxueqiuapi.html" />
+    <Content Include="bin\x86\Debug\html5\pdfviewer.html" />
+    <Content Include="bin\x86\Debug\html5\test.html" />
+    <Content Include="bin\x86\Debug\html5\whatismoat.html" />
+    <Content Include="bin\x86\Debug\plugins\pepflashplayer.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\favicon.ico" />
+    <Content Include="Resources\info.png" />
+    <Content Include="Resources\info_red.png" />
+    <Content Include="Resources\snowball.ico" />
+    <Content Include="Resources\Stocks.png" />
+    <Content Include="Resources\价值主张.png" />
+    <Content Include="Resources\免费.png" />
+    <Content Include="Resources\关键业务.png" />
+    <Content Include="Resources\分拆.png" />
+    <Content Include="Resources\多边平台.png" />
+    <Content Include="Resources\定价配置.png" />
+    <Content Include="Resources\客户关系.png" />
+    <Content Include="Resources\客户细分.png" />
+    <Content Include="Resources\开放平台.png" />
+    <Content Include="Resources\成本结构.png" />
+    <Content Include="Resources\挖掘.png" />
+    <Content Include="Resources\收入来源.png" />
+    <Content Include="Resources\核心资源.png" />
+    <Content Include="Resources\渠道通路.png" />
+    <Content Include="Resources\重要合作.png" />
+    <Content Include="Resources\长尾.png" />
+    <None Include="Resources\stock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NiceShot.Core\NiceShot.Core.csproj">
+      <Project>{8d591e85-c429-4c4a-b426-613f519bff47}</Project>
+      <Name>NiceShot.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HK\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="MediaPlayer">
+      <Guid>{22D6F304-B0F6-11D0-94AB-0080C74C7E95}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="stdole">
+      <Guid>{00020430-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\cef.redist.x64.83.4.2\build\cef.redist.x64.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x64.83.4.2\build\cef.redist.x64.props'))" />
+    <Error Condition="!Exists('..\packages\cef.redist.x86.83.4.2\build\cef.redist.x86.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\cef.redist.x86.83.4.2\build\cef.redist.x86.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.83.4.20\build\CefSharp.Common.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.83.4.20\build\CefSharp.Common.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.Common.83.4.20\build\CefSharp.Common.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.Common.83.4.20\build\CefSharp.Common.targets'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.WinForms.83.4.20\build\CefSharp.WinForms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.83.4.20\build\CefSharp.WinForms.props'))" />
+    <Error Condition="!Exists('..\packages\CefSharp.WinForms.83.4.20\build\CefSharp.WinForms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CefSharp.WinForms.83.4.20\build\CefSharp.WinForms.targets'))" />
+  </Target>
+  <Import Project="..\packages\CefSharp.Common.83.4.20\build\CefSharp.Common.targets" Condition="Exists('..\packages\CefSharp.Common.83.4.20\build\CefSharp.Common.targets')" />
+  <Import Project="..\packages\CefSharp.WinForms.83.4.20\build\CefSharp.WinForms.targets" Condition="Exists('..\packages\CefSharp.WinForms.83.4.20\build\CefSharp.WinForms.targets')" />
+</Project>

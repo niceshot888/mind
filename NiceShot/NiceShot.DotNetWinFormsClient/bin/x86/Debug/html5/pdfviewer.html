@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <title>查看PDF文件</title>
+    <script type="text/javascript" src="bootstrap/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.media.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</head>
+<body>
+    <div style="margin:auto 24px;width:500px;float:left;"> <a id="a_pdf" class="media" href="guice.pdf">PDF File</a> </div>
+
+    <script type="text/javascript">
+        var pdfurl = getUrlVar("pdfurl");
+        $(function () {
+            $("#a_pdf").attr("href", pdfurl);
+            alert(pdfurl);
+            $('a.media').media({ width: 800, height: 600 });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>股东人数</title>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <style type="text/css">
+        .btn-xueqiu {
+            color: crimson;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main" style="width:840px;height:620px;">
+    </div>
+    <div style="width:100%;text-align:right;">
+        <a class="btn-xueqiu" href="javascript:void(0)" onclick="openXueQiu()">登录雪球网</a>
+    </div>
+  
+    <script type="text/javascript">
+
+        var gdrs_dates = [];
+        var gdrs_data = [];
+        var symbol = getUrlVar("symbol");
+        var myChart = echarts.init(document.getElementById('main'));
+
+        //var em_gdrs_url = "http://data.eastmoney.com/DataCenter_V3/gdhs/GetDetial.ashx?code=" + symbol + "&js=var%20hrnTyNuv&pagesize=5000&page=1";
+        var xq_gdrs_url = "https://stock.xueqiu.com/v5/stock/f10/cn/holders.json?symbol="+symbol+"&extend=true&page=1&size=10000";
+
+        $(function () {
+            $.getJSON(xq_gdrs_url, function (rs) {
+                $.each(rs.data.items, function (index, item) {
+                    var date = new Date(item.timestamp);
+                    gdrs_dates.push(date.format("yyyy-MM-dd"));
+                    gdrs_data.push(keepTwoDecimal(item.holder_num));
+                });
+
+                var option = {
+                    title: {
+                        text: '股东人数'
+                    },
+                    toolbox: {
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            //dataView: { show: true }
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                    },
+                    legend: {
+                        data: ['股东人数']
+                    },
+                    dataZoom: [{
+                        type: 'inside',
+                        start: 0,
+                        end: 100
+                    }, {
+                        type: 'slider',
+                        show: true,
+                        //realtime: true,
+                        start: 0,
+                        end: 100,
+                    }],
+                    xAxis: {
+                        data: gdrs_dates.reverse(),
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '股东人数',
+                        type: 'line',
+                        //smooth: true,
+                        data: gdrs_data.reverse()
+                    }]
+                };
+                myChart.setOption(option);
+            });
+        });
+
+        var timer_if_close_xq_win;
+        var xqwin;
+        function ifXqWinClosed() {
+            if (xqwin.closed == true) {
+                window.clearInterval(timer_if_close_xq_win);
+                window.location.reload();
+            }
+        }
+
+        function openXueQiu() {
+
+            var iWidth = 800;
+            var iHeight = 600;
+
+            //获得窗口的垂直位置
+            var iTop = (window.screen.availHeight - 30 - iHeight) / 2;
+            //获得窗口的水平位置
+            var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;
+
+            xqwin = window.open('http://www.xueqiu.com', 'newwindow', 'height=' + iHeight + ', width=' + iWidth + ', top=' + iTop + ', left=' + iLeft + ', toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+            timer_if_close_xq_win = window.setInterval("ifXqWinClosed()", 500);
+        }
+    </script>
+</body>
+</html>

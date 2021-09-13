@@ -1,0 +1,74 @@
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+namespace NiceShot.Core.Models.JsonObjects{
+[JsonObject]
+public class em_cashflow_insurance_jo{
+public string SECURITYCODE {get;set;}
+public int REPORTTYPE {get;set;}
+public int REPORTDATETYPE {get;set;}
+public int TYPE {get;set;}
+public string REPORTDATE {get;set;}
+public string CURRENCY {get;set;}
+public string NIDEPOSIT {get;set;}
+public string PREMIUMREC {get;set;}
+public string NETRIREC {get;set;}
+public string NIINSUREDDEPOSITINV {get;set;}
+public string TAXRETURNREC {get;set;}
+public string NETTRADEFASSETREC {get;set;}
+public string INTANDCOMMREC {get;set;}
+public string NILENDFUND {get;set;}
+public string NDDEPOSITINCBANKFI {get;set;}
+public string NISELLBUYBACK {get;set;}
+public string NDBUYSELLBACK {get;set;}
+public string OTHEROPERATEREC {get;set;}
+public string SUMOPERATEFLOWIN {get;set;}
+public string INDEMNITYPAY {get;set;}
+public string NETRIPAY {get;set;}
+public string NDLENDFUND {get;set;}
+public string NIBUYSELLBACK {get;set;}
+public string NDSELLBUYBACK {get;set;}
+public string NILOANADVANCES {get;set;}
+public string INTANDCOMMPAY {get;set;}
+public string DIVIPAY {get;set;}
+public string NDINSUREDDEPOSITINV {get;set;}
+public string NIDEPOSITINCBANKFI {get;set;}
+public string EMPLOYEEPAY {get;set;}
+public string TAXPAY {get;set;}
+public string NETTRADEFASSETPAY {get;set;}
+public string OTHEROPERATEPAY {get;set;}
+public string SUMOPERATEFLOWOUT {get;set;}
+public string NETOPERATECASHFLOW {get;set;}
+public string DISPOSALINVREC {get;set;}
+public string INVINCOMEREC {get;set;}
+public string DISPFILASSETREC {get;set;}
+public string DISPSUBSIDIARYREC {get;set;}
+public string BUYSELLBACKFASSETREC {get;set;}
+public string OTHERINVREC {get;set;}
+public string SUMINVFLOWIN {get;set;}
+public string INVPAY {get;set;}
+public string NIINSUREDPLEDGELOAN {get;set;}
+public string BUYFILASSETPAY {get;set;}
+public string BUYSUBSIDIARYPAY {get;set;}
+public string DISPSUBSIDIARYPAY {get;set;}
+public string BUYSELLBACKFASSETPAY {get;set;}
+public string OTHERINVPAY {get;set;}
+public string SUMINVFLOWOUT {get;set;}
+public string NETINVCASHFLOW {get;set;}
+public string ACCEPTINVREC {get;set;}
+public string LOANREC {get;set;}
+public string ISSUEBONDREC {get;set;}
+public string NETSELLBUYBACKFASSETREC {get;set;}
+public string OTHERFINAREC {get;set;}
+public string SUMFINAFLOWIN {get;set;}
+public string REPAYDEBTPAY {get;set;}
+public string DIVIPROFITORINTPAY {get;set;}
+public string NETSELLBUYBACKFASSETPAY {get;set;}
+public string OTHERFINAPAY {get;set;}
+public string SUMFINAFLOWOUT {get;set;}
+public string NETFINACASHFLOW {get;set;}
+public string EFFECTEXCHANGERATE {get;set;}
+public string NICASHEQUI {get;set;}
+public string CASHEQUIBEGINNING {get;set;}
+public string CASHEQUIENDING {get;set;}
+}}

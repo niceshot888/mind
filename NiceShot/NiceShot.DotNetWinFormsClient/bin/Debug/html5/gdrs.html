@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>股东人数</title>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+</head>
+<body>
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <input type="hidden" id="hd_gdrs_json" />
+    <script type="text/javascript">
+
+        var gdrs_dates = [];
+        var gdrs_data = [];
+        var symbol = getUrlVar("symbol");
+        symbol = "000961";
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var em_gdrs_url = "http://data.eastmoney.com/DataCenter_V3/gdhs/GetDetial.ashx?code=" + symbol + "&js=var%20hrnTyNuv&pagesize=5000&page=1";
+
+        //var rs = $.parseJSON($("#hd_gdrs_json").val());
+        var cookie_em = "qgqp_b_id=4a3502c72018e8c5125d8bf859390436; st_si=86640164105825; em_hq_fls=js; cowminicookie=true; emshistory=%5B%22%E4%B8%AD%E5%8D%97%E5%BB%BA%E8%AE%BE%E5%9F%BA%E9%87%91%E6%8C%81%E8%82%A1%22%5D; EMFUND1=null; EMFUND2=null; EMFUND3=null; EMFUND4=null; EMFUND0=null; EMFUND6=08-10%2021%3A42%3A15@%23%24%u534E%u590F%u56DE%u62A5%u6DF7%u5408A@%23%24002001; EMFUND7=08-10%2021%3A42%3A44@%23%24%u4E1C%u65B9%u7EA2%u4EA7%u4E1A%u5347%u7EA7%u6DF7%u5408@%23%24000619; EMFUND8=08-10%2021%3A43%3A22@%23%24%u4E1C%u65B9%u7EA2%u6CAA%u6E2F%u6DF1%u6DF7%u5408@%23%24002803; waptgshowtime=2020811; st_asi=delete; HAList=a-sh-603806-%u798F%u65AF%u7279%2Cd-hk-02020%2Ca-sz-300315-%u638C%u8DA3%u79D1%u6280%2Ca-sz-300012-%u534E%u6D4B%u68C0%u6D4B%2Cd-hk-01458%2Ca-sz-000725-%u4EAC%u4E1C%u65B9%uFF21; EMFUND9=08-11%2014%3A05%3A05@%23%24%u534E%u590F%u5927%u76D8%u7CBE%u9009%u6DF7%u5408@%23%24000011; EMFUND5=08-11 16:29:26@#$%u4E1C%u65B9%u7EA2%u667A%u9038%u6CAA%u6E2F%u6DF1%u5B9A%u5F00%u6DF7%u5408@%23%24004278; qRecords=%5B%7B%22name%22%3A%22%u4E2D%u5357%u5EFA%u8BBE%22%2C%22code%22%3A%22SZ000961%22%7D%2C%7B%22name%22%3A%22%u5B8F%u53D1%u80A1%u4EFD%22%2C%22code%22%3A%22SH600885%22%7D%2C%7B%22name%22%3A%22%u9AD8%u6D4B%u80A1%u4EFD%22%2C%22code%22%3A%22SH688556%22%7D%2C%7B%22name%22%3A%22%u4E2D%u56FD%u5E73%u5B89%22%2C%22code%22%3A%22SH601318%22%7D%2C%7B%22name%22%3A%22%u5E73%u5B89%u94F6%u884C%22%2C%22code%22%3A%22SZ000001%22%7D%5D; dRecords=%u6CAA%u6DF1%u6E2F%u901A%u6301%u80A1-%u4EAC%u4E1C%u65B9A%7Chttp%3A//data.eastmoney.com/hsgtcg/StockHdStatistics.aspx%3Fstock%3D000725%2C*%u9650%u552E%u89E3%u7981-%u4EAC%u4E1C%u65B9A%7Chttp%3A//data.eastmoney.com/dxf/detail/000725.html%2C*%u9650%u552E%u89E3%u7981-%u4E2D%u5357%u5EFA%u8BBE%7Chttp%3A//data.eastmoney.com/dxf/q/000961.html%2C*%u6CAA%u6DF1%u6E2F%u901A%u6210%u4EA4%7Chttp%3A//data.eastmoney.com/hsgt/top10.html%2C*%u6CAA%u6DF1%u6E2F%u901A%u6301%u80A1-%u91D1%u79D1%u80A1%u4EFD%7Chttp%3A//data.eastmoney.com/hsgtcg/StockHdStatistics.aspx%3Fstock%3D000656%2C*%u6CAA%u6DF1%u6E2F%u901A%u6301%u80A1-%u4E07%u79D1A%7Chttp%3A//data.eastmoney.com/hsgtcg/StockHdStatistics.aspx%3Fstock%3D000002%2C*%u6CAA%u6DF1%u6E2F%u901A%u6301%u80A1-%u91D1%u5730%u96C6%u56E2%7Chttp%3A//data.eastmoney.com/hsgtcg/StockHdStatistics.aspx%3Fstock%3D600383%2C*%u878D%u8D44%u878D%u5238-%u4E2D%u5357%u5EFA%u8BBE%7Chttp%3A//data.eastmoney.com/rzrq/stock/000961.html%2C*%u6CAA%u6DF1%u6E2F%u901A%u6301%u80A1-%u4E2D%u5357%u5EFA%u8BBE%7Chttp%3A//data.eastmoney.com/hsgtcg/StockHdStatistics.aspx%3Fstock%3D000961%2C*%u4F30%u503C%u5206%u6790%7Chttp%3A//data.eastmoney.com/gzfx/%2C*%u4E1A%u7EE9%u62A5%u8868%7Chttp%3A//data.eastmoney.com/bbsj/201912/yjbb.html%2C*%u6CAA%u6DF1%u6E2F%u901A%u8D44%u91D1%7Chttp%3A//data.eastmoney.com/hsgt/index.html%2C*%u4E2A%u80A1%u8D44%u91D1%u6D41-%u9AD8%u6D4B%u80A1%u4EFD%7Chttp%3A//data.eastmoney.com/zjlx/688556.html%2C*%u589E%u53D1%7Chttp%3A//data.eastmoney.com/other/gkzf.html%2C*%u6CAA%u6DF1%u6E2F%u901A%u6301%u80A1%7Chttp%3A//data.eastmoney.com/hsgtcg/%2C*%u4E3B%u529B%u6570%u636E-%u4E2D%u5357%u5EFA%u8BBE%7Chttp%3A//data.eastmoney.com/zlsj/detail/2020-06-30-1-000961.html%2C*%u4E3B%u529B%u6570%u636E%7Chttp%3A//data.eastmoney.com/zlsj/%2C*%u516C%u544A%u5927%u5168-%u4E2D%u5357%u5EFA%u8BBE%7Chttp%3A//data.eastmoney.com/notices/stock/000961.html%2C*%u80A1%u4E1C%u6237%u6570-%u4E2D%u5357%u5EFA%u8BBE%7Chttp%3A//data.eastmoney.com/gdhs/detail/000961.html; cowCookie=true; intellpositionL=1106px; intellpositionT=922px; st_pvi=32913580296898; st_sp=2018-12-20%2015%3A55%3A48; st_inirUrl=http%3A%2F%2Fwww.eastmoney.com%2F; st_sn=356; st_psi=20200811231416786-113300301471-8667281940";
+
+        $.ajax({
+            type: "get",
+            url: em_gdrs_url,
+            headers: {
+                Accept: "application/json; charset=utf-8",
+                cookie: cookie_em
+            },
+            dataType: "json",
+            success: function (rs) {
+
+                alert(rs);
+            },
+            error: function () {
+                alert("error");
+                //console.log('error');
+            }
+        })
+
+        //$.getJSON(em_gdrs_url, function (rs) {
+        //    var jsonStr = rs.replace("var hrnTyNuv=", "");
+        //    var jsonObj = $.parseJSON(jsonStr);
+        //    $.each(jsonObj.data, function (index, item) {
+        //        //$.myTime.UnixToDate(item.timestamp)
+        //        gdrs_dates.push(item.timestamp);
+        //        gdrs_data.push(item.ashare_holder);
+        //    });
+
+        //    var option = {
+        //        title: {
+        //            text: '股东人数'
+        //        },
+        //        tooltip: {},
+        //        legend: {
+        //            data: ['股东人数']
+        //        },
+        //        xAxis: {
+        //            data: gdrs_dates
+        //        },
+        //        yAxis: {},
+        //        series: [{
+        //            name: '股东人数',
+        //            type: 'line',
+        //            smooth: true,
+        //            data: gdrs_data
+        //        }]
+        //    };
+        //    myChart.setOption(option);
+        //});
+    </script>
+</body>
+</html>

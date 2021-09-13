@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>历史估值</title>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <style type="text/css">
+        .btn-xueqiu{color:crimson;font-size:12px;}
+    </style>
+</head>
+<body>
+
+    <div id="main" style="width:800px;height:600px;">
+    </div>
+    <div style="width:100%;text-align:right;">
+        <a class="btn-xueqiu" href="javascript:void(0)" onclick="openXueQiu()">登录雪球网</a>
+    </div>
+
+    <script type="text/javascript">
+
+        var lsgz_dates = [];
+        var pe_data = [];
+        var ps_data = [];
+        var mc_data = [];
+        var agt_data = [];
+        var symbol = getUrlVar("symbol");
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var xq_kline_url = "https://stock.xueqiu.com/v5/stock/chart/kline.json?symbol=" + symbol + "&begin=0&period=day&type=before&count=100000000&indicator=kline,pe,ps,market_capital,ggt";
+
+        $(function () {
+
+            $.getJSON(xq_kline_url, function (rs) {
+                $.each(rs.data.item, function (index, item) {
+                    var date = new Date(item[0]);
+                    var str_date = date.format("yyyy-MM-dd");
+                    lsgz_dates.push(str_date);
+                    pe_data.push(keepTwoDecimal(item[12]));
+                    ps_data.push(keepTwoDecimal(item[13]));
+                    mc_data.push(convertDecimalToYiYuan(item[14]));
+                    agt_data.push(keepTwoDecimal(item[16]));
+                });
+
+
+                var option = {
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: '历史估值'
+                    },
+                    toolbox: {
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            //dataView: { show: true }
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        formatter: function (params) {
+                            var res = params[0].name;
+                            for (var i = 0, j = params.length; i < j; i++) {
+                                if (params[i].seriesName == "内资") {
+                                    var val = convertUndefinedToEmptyNum(params[i].value);
+                                    if (val != "")
+                                        res += "<br/>" + params[i].seriesName + ":" + val + "%";
+                                }
+                                else {
+                                    var val = convertUndefinedToEmptyNum(params[i].value);
+                                    if (val != "")
+                                        res += "<br/>" + params[i].seriesName + ":" + params[i].value;
+                                }
+                            }
+                            return res;
+                        }
+                    },
+                    legend: {
+                        data: ['PE', 'PS', '市值', '内资'],//, 'PCF'
+                        selected: { 'PE': false, 'PS': false, '市值': false, '内资': true }
+                    },
+                    dataZoom: [{
+                        type: 'inside',
+                        start: 0,
+                        end: 100
+                    }, {
+                        type: 'slider',
+                        show: true,
+                        //realtime: true,
+                        start: 0,
+                        end: 100,
+                    }],
+                    grid: {
+                        bottom: 80
+                    },
+                    xAxis: [{
+                        type: "category",
+                        boundaryGap: false,
+                        data: lsgz_dates
+                    }],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: 'PE',
+                            position: 'left'
+                        },
+                        {
+                            type: 'value',
+                            name: 'PS',
+                            offset: 75,
+                            position: 'left'
+                        },
+                        {
+                            type: 'value',
+                            name: '金额',
+                            position: 'right',
+                            axisLabel: {
+                                formatter: '{value}亿元'
+                            }
+                        },
+                        {
+                            type: 'value',
+                            name: '内资',
+                            offset: 45,
+                            position: 'right',
+                            axisLabel: {
+                                formatter: '{value}%'
+                            }
+                        },
+                    ],
+                    series: [{
+                        name: 'PE',
+                        type: 'line',
+                        xAxisIndex: 0,
+                        yAxisIndex: 0,
+                        smooth: true,
+                        connectNulls: true,
+                        data: pe_data
+                    }, {
+                        name: 'PS',
+                        type: 'line',
+                        xAxisIndex: 0,
+                        yAxisIndex: 1,
+                        smooth: true,
+                        connectNulls: true,
+                        data: ps_data
+                    },  {
+                        name: '市值',
+                        type: 'line',
+                        connectNulls: true,
+                        yAxisIndex: 2,
+                        smooth: true,
+                        data: mc_data,
+                    }, {
+                        name: '内资',
+                        type: 'line',
+                        xAxisIndex: 0,
+                        yAxisIndex: 3,
+                        smooth: true,
+                        connectNulls: true,
+                        data: agt_data,
+                    }]
+                };
+                myChart.setOption(option, true);
+            });
+
+        });
+
+        var timer_if_close_xq_win;
+        var xqwin;
+        function ifXqWinClosed() {
+            if (xqwin.closed == true) {
+                //alert("closed");
+                window.clearInterval(timer_if_close_xq_win);
+                window.location.reload();
+            }
+        }
+        function openXueQiu() {
+
+            var iWidth = 800;
+            var iHeight = 600;
+
+            //获得窗口的垂直位置
+            var iTop = (window.screen.availHeight - 30 - iHeight) / 2;
+            //获得窗口的水平位置
+            var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;
+
+            xqwin = window.open('http://www.xueqiu.com', 'newwindow', 'height=' + iHeight + ', width=' + iWidth + ', top=' + iTop + ', left=' + iLeft + ', toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+            timer_if_close_xq_win = window.setInterval("ifXqWinClosed()", 500);
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <title>机构持仓-EM</title>
+    <link type="text/css" href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="bootstrap/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" src="layer/layer.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <style type="text/css">
+        html {
+            font-size: 12px;
+            font-family: Arial;
+        }
+
+        #pnlTop {
+            margin-top: 10px;
+        }
+
+        .table td, .table th {
+            padding: 3px 5px;
+        }
+        .table thead th {
+            vertical-align: middle;
+        }
+        .tbl_date{width:100px;}
+        .tbl_name {
+            width: 80px;
+        }
+        .tbl_cgsz {
+            width: 80px;
+        }
+        .tbl_cgsl {
+            width: 80px;
+        }
+        .text-wrap {
+            width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .btn {
+            padding: 2px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row" id="pnlTop" style="padding:5px 0;">
+            <div class="col-sm">
+                <label>数据日期：</label>
+                <select id="sel_date">
+                    <option selected>2021-06-30</option>
+                    <option>2021-03-31</option>
+                    <option>2020-12-31</option>
+                    <option>2020-09-30</option>
+                    <option>2020-06-30</option>
+                    <option>2020-03-31</option>
+                    <option>2019-12-31</option>
+                    <option>2019-09-30</option>
+                    <option>2019-06-30</option>
+                    <option>2019-03-31</option>
+                    <option>2018-12-31</option>
+                    <option>2018-09-30</option>
+                    <option>2018-06-30</option>
+                    <option>2018-03-31</option>
+                    <option>2017-12-31</option>
+                    <option>2017-09-30</option>
+                    <option>2017-06-30</option>
+                    <option>2017-03-31</option>
+                    <option>2016-12-31</option>
+                    <option>2016-09-30</option>
+                    <option>2016-06-30</option>
+                    <option>2016-03-31</option>
+                    <option>2015-12-31</option>
+                    <option>2015-09-30</option>
+                    <option>2015-06-30</option>
+                    <option>2015-03-31</option>
+                </select>
+                <button type="button" id="btnSearch" class="btn btn-primary">查询</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+                <table id="tblCgjjList" class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width:auto;">机构名称</th>
+                            <th scope="col" style="width:140px;">操作</th>
+                            <th scope="col" style="width:80px;">持股总数<br/>(万股)</th>
+                            <th scope="col" style="width:70px;">占总股本比例(%)</th>
+                            <th scope="col" style="width:70px;">持股市值(亿元)</th>
+                            <th scope="col" style="width:80px;">机构属性</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tb_jgxx">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script id="tmpl_jgxx" type="text/x-jquery-tmpl">
+        <tr>
+            <td style="width:250px;">${f4}</td>
+            <td>
+                {{if f8=="基金" }}
+                <a href="javascript:void(0)" onclick="view_jgcg_details('${f3}','${f4}','${f7}')" style="margin-right:10px;">股数变化</a>
+                <a href="javascript:void(0)" onclick="view_jgcg_list('${f3}','${f4}','${f7}')">持股列表</a>
+                {{/if}}
+            </td>
+            <td>${convertDecimalToWanGu(f9)}</td>
+            <td>${f11}%</td>
+            <td>${convertDecimalToYiYuan(f10)}</td>
+            <td>${f8}</td>
+        </tr>
+    </script>
+
+    <script type="text/javascript">
+
+        var jgcg_data = [];
+        var symbol = getUrlVar("symbol");
+        var dateArr = ["2021-06-30","2021-03-31","2020-12-31","2020-09-30", "2020-06-30", "2020-03-31",
+            "2019-12-31", "2019-09-30", "2019-06-30", "2019-03-31",
+            "2018-12-31", "2018-09-30", "2018-06-30", "2018-03-31"];
+
+        $(function () {
+            $("#sel_date").change(function () {
+                get_jgcg_data();
+            });
+            $("#btnSearch").click(function () {
+                get_jgcg_data();
+            });
+            get_jgcg_data();
+        });
+
+        function view_jgcg_list(shcode, sname, shtype) {
+            var jgmc = "";//机构名称
+            var dia_rs = "<div style='padding:10px;'><h5 style='padding-top:5px;padding-left:2px;'>" + sname + "持股列表：</h5><hr style='margin:0;'/>";
+
+            for (var idx in dateArr) {
+                var date = dateArr[idx];
+
+                var jgcg_html = get_jgcg_details_by_date(shcode, shtype, date);
+                if (jgcg_html == null || jgcg_html.length==0)
+                    continue;
+
+                dia_rs += "<table class='table table-bordered table-hover table-striped'><thead><tr><th class='tbl_date'>日期</th><th class='tbl_name'>股票名称</th><th class='tbl_cgsl'>持股数量(万股)</th><th class='tbl_cgsz'>持股市值(亿元)</th><th class='tbl_cgsz'>占总股本比例</th></tr></thead><tbody>";
+                for (var item_idx in jgcg_html) {
+                    var datas = jgcg_html[item_idx].split('|');
+                    dia_rs += "<tr>";
+                    dia_rs += "<td>" + datas[2] + "</td>";
+                    dia_rs += "<td>" + datas[1] + "</td>";
+                    dia_rs += "<td style='text-align:center;'>" + get_wan_gu(datas[9]) + "</td>";
+                    dia_rs += "<td style='text-align:center;'>" + get_yi_yuan(datas[10]) + "</td>";
+                    dia_rs += "<td>" + datas[11] + "</td>";
+                    dia_rs += "</tr>";
+                }
+                dia_rs += "</tbody></table>";
+            }
+
+            dia_rs += "</div>";
+            layer.open({
+                maxWidth: 460,
+                maxHeight: 610,
+                type: 1,
+                moveType: 0,
+                shadeClose: true,
+                title: jgmc,
+                content: dia_rs
+            });
+        }
+
+        function view_jgcg_details(shcode,sname,shtype) {
+            var jgmc = "";//机构名称
+            var dia_rs = "<h5 style='padding-top:5px;padding-left:2px;'>" + sname + "持股详细：</h5><hr style='margin:0;'/><div style='padding:2px 10px;'><table class='table table-bordered table-hover table-striped'><thead><tr><th class='tbl_date'>日期</th><th class='tbl_cgsl'>持股数量(万股)</th><th class='tbl_cgsz'>持股市值(亿元)</th><th class='tbl_cgsz'>占总股本比例</th></tr></thead><tbody>";
+
+            for (var idx in dateArr) {
+                var date = dateArr[idx];
+
+                var jgcg_html = get_jgcg_details_by_date(shcode, shtype, date);
+
+                for (var item_idx in jgcg_html) {
+                    var datas = jgcg_html[item_idx].split('|');
+                    if (datas[0].substring(0,6) != symbol)
+                        continue;
+                    dia_rs += "<tr>";
+                    dia_rs += "<td>" + datas[2] + "</td>";
+                    dia_rs += "<td style='text-align:center;'>" + get_wan_gu(datas[9]) + "</td>";
+                    dia_rs += "<td style='text-align:center;'>" + get_yi_yuan(datas[10]) + "</td>";
+                    dia_rs += "<td>" + datas[11] + "</td>";
+                    dia_rs += "</tr>";
+                }
+            }
+
+            dia_rs += "</tbody></table></div>";
+            layer.open({
+                type: 1,
+                moveType: 0,
+                shadeClose: true,
+                title: jgmc,
+                content: dia_rs
+            });
+        }
+
+        function get_jgcg_details_year(shcode, year) {
+            var rs_content = "";
+            var em_fund_url = "http://fundf10.eastmoney.com/FundArchivesDatas.aspx?type=jjcc&code=" + shcode + "&topline=100&year=" + year + "&month=3,6,9,12";
+
+            $.ajax({
+                type: "get",
+                url: em_fund_url,
+                async: false,
+                success: function (rs) {
+                    var jsonStr = rs.replace("var apidata=", "").replace("content:", "\"content\":").replace("};", "}").replace("arryear", "\"arryear\"").replace("curyear", "\"curyear\"");
+                    var jsonObj = $.parseJSON(jsonStr);
+                    rs_content = jsonObj.content;
+                }
+            });
+            return rs_content;
+        }
+
+        function get_jgcg_details_by_date(shcode,shtype, date) {
+            var rs_content = "";
+            var em_fund_url = "http://datainterface3.eastmoney.com/EM_DataCenter_V3/api/ZLCCMX/GetZLCCMX?tkn=eastmoney&SHType=" + shtype + "&SHCode=" + shcode + "&SCode=&ReportDate=" + date + "&sortField=ShareHDNum&sortDirec=1&pageNum=1&pageSize=500&cfg=ZLCCMX&p=1&pageNo=1";
+
+            $.ajax({
+                type: "get",
+                url: em_fund_url,
+                async: false,
+                success: function (rs) {
+                    rs_content = rs.Data[0].Data;
+                }
+            });
+            return rs_content;
+        }
+
+        function get_jgcg_data() {
+
+            $("#tb_jgxx").empty();
+
+            var date = $("#sel_date").val();
+
+            var em_jgcg_url = "http://data.eastmoney.com/dataapi/zlsj/detail?SHType=&SHCode=&SCode=" + symbol + "&ReportDate=" + date + "&sortField=ShareHDNum&sortDirec=1&pageNum=1&pageSize=1500&p=1&pageNo=1";
+            $.get(em_jgcg_url, function (rs) {
+                $("#tmpl_jgxx").tmpl(rs.data).appendTo('#tb_jgxx');
+            });
+        }
+
+        function get_wan_gu(val) {
+            return (val / 10000).toFixed(2);
+        }
+        function get_yi_yuan(val) {
+            return (val / 100000000).toFixed(2);
+        }
+    </script>
+</body>
+</html>

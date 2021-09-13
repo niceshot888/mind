@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <title>问董秘-EM</title>
+    <link type="text/css" href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="bootstrap/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" src="layer/layer.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <style type="text/css">
+        html {
+            font-size: 12px;
+            font-family: Arial;
+        }
+
+        #pnlTop {
+            margin-top: 10px;
+        }
+
+        .table td, .table th {
+            padding: 3px 5px;
+        }
+        .table thead th {
+            vertical-align: middle;
+        }
+        .tbl_date{width:80px;}
+        .tbl_name {
+            width: 60px;
+        }
+        .tbl_cgsz {
+            width: 60px;
+        }
+        .tbl_cgsl {
+            width: 60px;
+        }
+        .text-wrap {
+            width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .btn {
+            padding: 2px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" id="wdm_content">
+                
+            </div>
+        </div>
+    </div>
+
+    <script id="tmpl_wdm" type="text/x-jquery-tmpl">
+        <div>
+            问：${ask_question}（日期：${post_display_time}）
+        </div>
+        <div>
+            答：${ask_answer}
+        </div>
+    </script>
+
+    <script type="text/javascript">
+
+        var symbol = getUrlVar("symbol");
+
+        $(function () {
+            get_wdm_data();
+        });
+
+        function get_wdm_data() {
+            $("#wdm_content").empty();
+
+            var em_wdm_url = "http://guba.eastmoney.com/interface/GetData.aspx";
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                data: {
+                    param: "code=" + symbol + "&ps=15&p=2&qatype=2",
+                    path: "question/api/Info/Search",
+                    env: 2
+                },
+                url: em_wdm_url,
+                success: function (rs) {
+                    $("#tmpl_wdm").tmpl(rs.re).appendTo('#wdm_content');
+                }
+            });
+
+            $.post(em_wdm_url, {
+                param: "code=" + symbol + "&ps=15&p=2&qatype=2",
+                path: "question/api/Info/Search",
+                env:2
+            }, function (rs) {
+                //$("#tmpl_wdm").tmpl(rs.re).appendTo('#wdm_content');
+            });
+        }
+    </script>
+</body>
+</html>

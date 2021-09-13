@@ -1,0 +1,48 @@
+#region	$tablename$
+public static $tablename$ get_$tablename$_data(string ts_code, string date)
+{
+    using (IDbConnection conn = new MySqlConnection(MySqlDbHelper.NICESHOTDB_CONN_STRING))
+    {
+	string sql = "select * from $tablename$ where securitycode='" + ts_code + "' and reportdate='" + date + "'";
+	return conn.Query<$tablename$>(sql).FirstOrDefault();
+    }
+}
+
+public static void oper_$tablename$_data($tablename$_jo jo)
+{
+    try
+    {
+	$tablename$ edit_entity = get_$tablename$_data(jo.SECURITYCODE, jo.REPORTDATE);
+	if (edit_entity != null)
+	{
+	    Logger.Info(string.Format("update data: tscode={0};date={1}", jo.SECURITYCODE, jo.REPORTDATE));
+	    string sql = "$update_sql$";
+	    using (IDbConnection conn = new MySqlConnection(MySqlDbHelper.NICESHOTDB_CONN_STRING))
+	    {
+		conn.Execute(sql, new
+		{
+		    $assign_data$
+		    id = edit_entity.id
+		});
+	    }
+	}
+	else
+	{
+	    Logger.Info(string.Format("insert data: tscode={0};date={1}", jo.SECURITYCODE, jo.REPORTDATE));
+	    string sql = "$insert_sql$";
+	    $tablename$ entity = new $tablename$()
+	    {
+		$assign_data$
+	    };
+	    using (IDbConnection conn = new MySqlConnection(MySqlDbHelper.NICESHOTDB_CONN_STRING))
+	    {
+		conn.Execute(sql, entity);
+	    }
+	}
+    }
+    catch (Exception ex)
+    {
+	Logger.Error(string.Format("sync em report data occurs error: tscode={0};date={1},details:{2}", jo.SECURITYCODE, jo.REPORTDATE, ex));
+    }
+}
+#endregion

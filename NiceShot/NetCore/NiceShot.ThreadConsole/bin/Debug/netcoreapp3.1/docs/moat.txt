@@ -1,0 +1,8 @@
+public string industry_include_complementors { get; set; }
+public string value_pie_growing { get; set; }
+public bool? hire_brand_for_job { get; set; }
+public bool? brand_increase_will_to_pay { get; set; }
+public bool? emotional_conn_brand { get; set; }
+public bool? trust_pro_cause_name { get; set; }
+public bool? brand_imply_social_status { get; set; }
+public bool? reduce_supplier_opercost_with_name { get; set; }

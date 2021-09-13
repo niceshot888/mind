@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>货币供应量</title>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <style type="text/css">
+        .btn-xueqiu {
+            color: crimson;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main" style="width:900px;height:550px;">
+    </div>
+
+    <script type="text/javascript">
+
+        //var money_supply_data = [];
+
+        var myChart = echarts.init(document.getElementById('main'));
+        var money_supply_url = "http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=GJZB&sty=ZGZB&p=1&ps=200000&mkt=11&pageNo=1&pageNum=1";
+
+        $(function () {
+            $.get(money_supply_url, function (rs) {
+
+                var oriDataArr = $.parseJSON(rs.replace("(", "").replace(")", "")).reverse();
+                
+                var dateArr = [];
+                var dataArrM2 = []; 
+                var dataArrM1 = [];
+                var dataArrM0 = [];
+
+                var dataArrM2YOY = [];
+                var dataArrM1YOY = [];
+                var dataArrM0YOY = [];
+
+                var dataArrM2MOM = [];
+                var dataArrM1MOM = [];
+                var dataArrM0MOM = [];
+                
+                $.each(oriDataArr, function (index, str) {
+                    var item = str.split(',');;
+                    console.log(item);
+
+                    dateArr.push(item[0]);
+                    dataArrM2.push(item[1]); 
+                    dataArrM2YOY.push(item[2]);
+                    dataArrM2MOM.push(item[3]);
+                    dataArrM1.push(item[4]);
+                    dataArrM1YOY.push(item[5]);
+                    dataArrM1MOM.push(item[6]);
+                    dataArrM0.push(item[7]);
+                    dataArrM0YOY.push(item[8]);
+                    dataArrM0MOM.push(item[9]);
+                });
+
+                //console.log(dataArrM2YOY);
+
+                var option = {
+                    chart: {
+                        type: 'line',
+                        zoomType: 'x'
+                    },
+                    title: {
+                        text: '货币供应量'
+                    },
+                    toolbox: {
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            //dataView: { show: true }
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                    },
+                    legend: {
+                        data: ['货币和准货币M2YOY', '货币M1YOY', '流通中的现金M0YOY'],
+                        selected: { '货币和准货币M2YOY': true, '货币M1YOY': true, '流通中的现金M0YOY': true }
+                    },
+                    dataZoom: [{
+                        type: 'inside',
+                        //start: 0,
+                        //end: 100
+                    }, {
+                        type: 'slider',
+                        show: true,
+                        //realtime: true,
+                        //start: 0,
+                        //end: 100,
+                    }],
+                    grid: {
+                        bottom: 80
+                    },
+                    xAxis: [{
+                        type: "category",
+                        boundaryGap: false,
+                        data: dateArr
+                    }],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            name: '货币和准货币M2YOY',
+                            position: 'left'
+                        }
+                    ],
+                    series: [{
+                        name: '货币和准货币M2YOY',
+                        type: 'line',
+                        //xAxisIndex: 0,
+                        //yAxisIndex: 0,
+                        smooth: true,
+                        connectNulls: true,
+                        data: dataArrM2YOY
+                    }, {
+                        name: '货币M1YOY',
+                        type: 'line',
+                        //xAxisIndex: 0,
+                        //yAxisIndex: 1,
+                        connectNulls: true,
+                            data: dataArrM1YOY
+                    }, {
+                        name: '流通中的现金M0YOY',
+                        type: 'line',
+                        //xAxisIndex: 0,
+                        //yAxisIndex: 2,
+                        smooth: true,
+                        connectNulls: true,
+                            data: dataArrM0YOY
+                    }]
+                };
+                myChart.setOption(option, true);
+
+            });
+        });
+
+        var timer_if_close_xq_win;
+        var xqwin;
+        function ifXqWinClosed() {
+            if (xqwin.closed == true) {
+                window.clearInterval(timer_if_close_xq_win);
+                window.location.reload();
+            }
+        }
+
+        function openXueQiu() {
+
+            var iWidth = 800;
+            var iHeight = 600;
+
+            //获得窗口的垂直位置
+            var iTop = (window.screen.availHeight - 30 - iHeight) / 2;
+            //获得窗口的水平位置
+            var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;
+
+            xqwin = window.open('http://www.xueqiu.com', 'newwindow', 'height=' + iHeight + ', width=' + iWidth + ', top=' + iTop + ', left=' + iLeft + ', toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+            timer_if_close_xq_win = window.setInterval("ifXqWinClosed()", 500);
+        }
+    </script>
+</body>
+</html>

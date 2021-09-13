@@ -1,0 +1,209 @@
+﻿@{
+    ViewBag.Title = "UNLOCK2 Basic";
+}
+@section css{
+    <style type="text/css">
+        #pnlAudio .col-sm-6{text-align:center;}
+    </style>
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Basic - 媒体库</div>
+            <div class="panel-body">
+                <div class="pnl-toolbar">
+                    书本标题：
+                    <select id="sel_book_type">
+                        <option value="Literacy">读写（Literacy）</option>
+                        <option value="Skills">技巧（Skills）</option>
+                    </select>
+                    媒体类型：
+                    <select id="sel_media_type">
+                        <option value="Audio">音频（Audio）</option>
+                    </select>
+                    单元：
+                    <select id="sel_unit">
+                    </select>
+                    <button class="btn btn-primary" id="btnSearch">查询</button>
+                    <a class="btn btn-success" id="btnOpenBook" href="/unlock2019/basic/Unlock 2e Basic Literacy.pdf" target="_blank" style="visibility:hidden">打开课本</a>
+                </div>
+
+                <div class="row main">
+                    <div id="pnlLevelAudioWrap">
+                        <div id="pnlLevelAudio">
+                            <div class="row">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-6"></div>
+                            </div>
+                        </div>
+                        <div id="pnlAudio">
+                            <audio controls="controls" id="audio_player">
+                                <source src="" type="audio/mpeg">
+                            </audio>
+                        </div>
+                    </div>
+                    <div id="pnlLevelVideoWrap">
+                        <div id="pnlVideo">
+                            <video controls id="video_player" src="" width="640" height="360">
+                                您的浏览器不支持 HTML5 video 标签。
+                            </video>
+                        </div>
+                        <div id="pnlLevelVideo">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section js{
+    <script id="tmplLevelAudio" type="text/x-jquery-tmpl">
+        <div class="media_name"><a href="javascript:void(0);" class="btn_video" data="${Url}" onclick="playAudio($(this))">${Name}<img src="/imgs/play.png" alt="播放" /></a></div>
+    </script>
+
+    <script id="tmplLevelVideo" type="text/x-jquery-tmpl">
+        <div class="media_name"><a href="javascript:void(0);" class="btn_video" data="${Url}" onclick="playVideo($(this))">${Name}<img src="/imgs/play.png" alt="播放" style="width:16px;" /></a></div>
+    </script>
+
+    <script type="text/javascript">
+        var hostUrl = "http://localhost:8081/";
+        //hostUrl = "/";
+        $(function () {
+            init();
+
+            showMedia();
+            $("#btnSearch").bind("click", function () {
+                document.getElementById("video_player").pause();
+                document.getElementById("audio_player").pause();
+                showMedia();
+            });
+        });
+
+        function init() {
+            for (var i = 0; i < 11; i++) {
+                if (i == 0)
+                    $("#sel_unit").append('<option value="' + i + '">开始单元</option>');
+                else
+                    $("#sel_unit").append('<option value="' + i + '">第' + (i) + '单元</option>');
+            }
+           
+            $("#sel_book_type").change(function () {
+                var book_type = $(this).val();
+
+                $("#sel_media_type").empty();
+
+                if (book_type == "Literacy") {
+                    $("#sel_media_type").append('<option value="Audio">音频（Audio）</option>');
+                    $("#btnOpenBook").attr("href", "/unlock2019/basic/Unlock 2e Basic Literacy.pdf");
+
+                    $("#sel_unit").empty();
+                    for (var i = 0; i < 11; i++) {
+                        if (i == 0)
+                            $("#sel_unit").append('<option value="' + i + '">开始单元</option>');
+                        else
+                            $("#sel_unit").append('<option value="' + i + '">第' + (i) + '单元</option>');
+                    }
+
+                } else {
+                    $("#sel_media_type").append('<option value="Audio">音频（Audio）</option>');
+                    $("#sel_media_type").append('<option value="Videos">视频（Videos）</option>');
+                    $("#sel_media_type").append('<option value="Videos with subtitles">带字幕视频</option>');
+                    $("#btnOpenBook").attr("href", "/unlock2019/basic/Unlock 2e Basic Skills.pdf");
+
+                    $("#sel_unit").empty();
+                    for (var i = 0; i <= 11; i++) {
+                        $("#sel_unit").append('<option value="' + i + '">第' + i + '单元</option>');
+                    }
+                }
+            });
+
+            $("#sel_book_type").change(function () {
+                showMedia();
+            });
+            $("#sel_media_type").change(function () {
+                showMedia();
+            });
+            $("#sel_unit").change(function () {
+                showMedia();
+            });
+
+            $(".pnlTopNav a").each(function () {
+                var href = $(this).attr("href").toLowerCase();
+
+                if (href.indexOf("basic") > 0) {
+                    $(this).addClass("current");
+                }
+            });
+        }
+
+        function showMedia() {
+            var book_type = $("#sel_book_type").val();
+            var media_type = $("#sel_media_type").val();
+            var unit = $("#sel_unit").val();
+
+            $("#pnlLevelAudio").empty();
+            $("#pnlLevelAudioWrap").hide();
+            $("#pnlLevelVideo").empty();
+            $("#pnlLevelVideoWrap").hide();
+            $.get(hostUrl + "unlock/GetBasicLevelFileList?book_type=" + book_type + "&media_type=" + media_type + "&unit=" + unit, function (rs) {
+                if (media_type == "Audio") {
+
+                    var audioHtml = "";
+                    audioHtml += '<div class="row">';
+
+                    audioHtml += '<div class="col-sm-4 text-right">';
+                    for (var i = 0; i < 12; i++) {
+                        audioHtml += '<div class="media_name"><a href="javascript:void(0);" class="btn_video" data="' + rs[i].Url + '" onclick="playAudio($(this))">' + rs[i].Name + '<img src="/imgs/play.png" alt="播放"/></a></div>';
+                    }
+                    audioHtml += '</div>';
+
+                    audioHtml += '<div class="col-sm-4">';
+                    for (var i = 12; i < 24; i++) {
+                        audioHtml += '<div class="media_name"><a href="javascript:void(0);" class="btn_video" data="' + rs[i].Url + '" onclick="playAudio($(this))">' + rs[i].Name + '<img src="/imgs/play.png" alt="播放"/></a></div>';
+                    }
+                    audioHtml += '</div>';
+
+                    audioHtml += '<div class="col-sm-4 text-left">';
+                    for (var i = 24; i < rs.length; i++) {
+                        audioHtml += '<div class="media_name"><a href="javascript:void(0);" class="btn_video" data="' + rs[i].Url + '" onclick="playAudio($(this))">' + rs[i].Name + '<img src="/imgs/play.png" alt="播放"/></a></div>';
+                    }
+                    audioHtml += '</div>';
+
+                    audioHtml += '</div>';
+                    $("#pnlLevelAudio").html(audioHtml);
+
+                    $('#pnlLevelAudioWrap').show();
+                }
+                else {
+                    $("#tmplLevelVideo").tmpl(rs).appendTo('#pnlLevelVideo');
+                    $('#pnlLevelVideoWrap').show();
+
+                    var a_list = $("#pnlLevelVideo a");
+                    if (a_list.length == 1) {
+                        $("#pnlLevelVideo a").trigger("click");
+                    }
+                }
+            });
+        }
+
+        function playVideo(obj) {
+            document.getElementById("video_player").pause();
+
+            var address = obj.attr("data");
+            $("#video_player").attr("src", hostUrl + address);
+            document.getElementById("video_player").play();
+        }
+        function playAudio(obj) {
+            document.getElementById("audio_player").pause();
+
+            var address = obj.attr("data");
+            $("#audio_player").attr("src", hostUrl + address);
+            document.getElementById("audio_player").play();
+        }
+
+    </script>
+}
+
