@@ -1,0 +1,64 @@
+//
+//  main.cpp
+//  math
+//
+//  Created by jun zhao on 2023/9/24.
+//
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int get_digit_num(string a){
+    int num=0;
+    
+    for(int i=0;i<a.length();i++){
+        num++;
+    }
+    
+    return num;
+}
+
+int main(int argc, const char * argv[]) {
+    
+    //定义两个数字
+    long a,b;
+    //定义余数
+    long r;
+    //定义商
+    string quotient;
+    //定义两个数字的位数和两个数之间的位差
+    int a_dm,b_dm,diff_ab_dm;
+    //输入两个数字
+    cin >>a>>b;
+    
+    //计算得到两个数字的位数
+    a_dm = get_digit_num(to_string(a));
+    b_dm = get_digit_num(to_string(b));
+    
+    //算出两个数字位数的位差
+    diff_ab_dm = a_dm-b_dm;
+    
+    //循环，根据a=qd+r判断出商每位的值;
+    r = a;
+    for(int i=diff_ab_dm;i>0;i--){
+        for(int j=9;j>=0;j--){
+            long m = b*j*pow(10,i-1);
+            if(m<r)
+            {
+                cout << j <<endl;
+                quotient += to_string(j);
+                r = r-m;
+                cout << r << endl;
+                break;
+            }
+        }
+    }
+    
+    cout <<"商："<<quotient<<"，余数："<<r<<endl;
+    //long s = strtoll(quotient.c_str(), NULL, 10);
+    //cout << s*b+r <<endl;
+    return 0;
+}
+
+
