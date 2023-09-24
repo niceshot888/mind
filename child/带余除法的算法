@@ -23,7 +23,10 @@ int main(int argc, const char * argv[]) {
     //定义两个数字的位数和两个数之间的位差
     int a_dm,b_dm,diff_ab_dm;
     //输入两个数字
-    cin >>a>>b;
+    cout <<"被除数：";
+    cin >>a;
+    cout <<"除数：";
+    cin >>b;
     
     //计算得到两个数字的位数
     a_dm = get_digit_num(to_string(a));
@@ -35,22 +38,20 @@ int main(int argc, const char * argv[]) {
     //循环，根据a=qd+r判断出商每位的值;
     r = a;
     for(int i=diff_ab_dm;i>0;i--){
-        for(int j=9;j>=0;j--){
+        for(int j=9; j>=0; j--){
             long m = b*j*pow(10,i-1);
-            if(m<r)
+            if(m<=r)
             {
-                cout << j <<endl;
+                cout <<"第"<< diff_ab_dm-i+1 <<"位商："<< j <<endl;
                 quotient += to_string(j);
                 r = r-m;
-                cout << r << endl;
+                cout <<"第" <<diff_ab_dm-i+1 <<"步余数："<< r << endl;
                 break;
             }
         }
     }
     
-    cout <<"商："<<quotient<<"，余数："<<r<<endl;
-    //long s = strtoll(quotient.c_str(), NULL, 10);
-    //cout << s*b+r <<endl;
+    cout <<endl<<"最终结果："<<endl<<"商："<<quotient<<"，余数："<<r<<endl;
     return 0;
 }
 
